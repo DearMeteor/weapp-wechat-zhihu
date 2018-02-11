@@ -8,18 +8,20 @@ Page({
     feed_length: 0
   },
   //事件处理函数
-  bindItemTap: function() {
+  bindItemTap: function(event) {
+    var question_id = event.currentTarget.dataset.question_id;
+    var answer_id = event.currentTarget.dataset.answer_id;
     wx.navigateTo({
-      url: '../answer/answer'
+      url: '../answer/answer?question_id=' + question_id + '&answer_id=' + answer_id
     })
   },
-  bindQueTap: function() {
+  bindQueTap: function(event) {
+    var question_id = event.currentTarget.dataset.question_id;
     wx.navigateTo({
-      url: '../question/question'
+      url: '../question/question?question_id=' + question_id
     })
   },
   onLoad: function () {
-    console.log('onLoad')
     var that = this
     //调用应用实例的方法获取全局数据
     this.getData();
@@ -27,14 +29,12 @@ Page({
   upper: function () {
     wx.showNavigationBarLoading()
     this.refresh();
-    console.log("upper");
-    setTimeout(function(){wx.hideNavigationBarLoading();wx.stopPullDownRefresh();}, 2000);
+    setTimeout(function(){wx.hideNavigationBarLoading();wx.stopPullDownRefresh();}, 1000);
   },
   lower: function (e) {
     wx.showNavigationBarLoading();
     var that = this;
-    setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 1000);
-    console.log("lower")
+    setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 500);
   },
   //scroll: function (e) {
   //  console.log("scroll")
@@ -55,7 +55,6 @@ Page({
   //使用本地 fake 数据实现刷新效果
   getData: function(){
     var feed = util.getData2();
-    console.log("loaddata");
     var feed_data = feed.data;
     this.setData({
       feed:feed_data,
@@ -66,7 +65,7 @@ Page({
     wx.showToast({
       title: '刷新中',
       icon: 'loading',
-      duration: 3000
+      duration: 1000
     });
     var feed = util.getData2();
     console.log("loaddata");
@@ -79,9 +78,9 @@ Page({
       wx.showToast({
         title: '刷新成功',
         icon: 'success',
-        duration: 2000
+        duration: 1000
       })
-    },3000)
+    },1000)
 
   },
 
@@ -90,7 +89,7 @@ Page({
     wx.showToast({
       title: '加载中',
       icon: 'loading',
-      duration: 4000
+      duration: 1000
     })
     var next = util.getNext();
     console.log("continueload");
@@ -103,9 +102,9 @@ Page({
       wx.showToast({
         title: '加载成功',
         icon: 'success',
-        duration: 2000
+        duration: 1000
       })
-    },3000)
+    },1000)
   }
 
 

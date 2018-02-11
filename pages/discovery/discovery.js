@@ -28,14 +28,17 @@ Page({
     });
   },
 
-  bindItemTap: function() {
+  bindItemTap: function(event) {
+    var question_id = event.currentTarget.dataset.question_id;
+    var answer_id = event.currentTarget.dataset.answer_id;
     wx.navigateTo({
-      url: '../answer/answer'
+      url: '../answer/answer?question_id=' + question_id + '&answer_id=' + answer_id
     })
   },
-  bindQueTap: function() {
+  bindQueTap: function () {
+    var question_id = event.currentTarget.dataset.question_id;
     wx.navigateTo({
-      url: '../question/question'
+      url: '../question/question?question_id=' + question_id
     })
   },
   upper: function () {
@@ -68,7 +71,7 @@ Page({
 
   //使用本地 fake 数据实现刷新效果
   refresh: function(){
-    var feed = util.getDiscovery();
+    var feed = util.getData2();
     console.log("loaddata");
     var feed_data = feed.data;
     this.setData({

@@ -4,8 +4,10 @@ var util = require('../../utils/util.js')
 var app = getApp()
 Page({
   data: {
-    motto: '知乎--微信小程序版',
-    userInfo: {}
+    question_id: 0,
+    answer_id : 0,
+    feed: [],
+    feed_length: 0
   },
   //事件处理函数
   toQuestion: function() {
@@ -13,16 +15,24 @@ Page({
       url: '../question/question'
     })
   },
-  onLoad: function () {
-    console.log('onLoad')
-    var that = this
-    //调用应用实例的方法获取全局数据
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      that.setData({
-        userInfo:userInfo
-      })
+  onLoad: function (options) {
+    var question_id = options.question_id;
+    var answer_id = options.answer_id
+    console.log(options)
+    this.setData({ 
+      question_id: question_id,
+      answer_id: answer_id
     })
+    var that = this;
+    this.getData();
+  },
+  getData: function () {
+    var feed = util.getData2();
+    var feed_data = feed.data;
+    this.setData({
+      feed: feed_data,
+      feed_length: feed_data.length
+    });
   },
   tapName: function(event){
     console.log(event)
