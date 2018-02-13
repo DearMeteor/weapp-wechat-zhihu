@@ -21,7 +21,7 @@ Page({
       url: '../question/question?question_id=' + question_id
     })
   },
-  onLoad: function () {
+  onLoad: function () { 
     var that = this
     //调用应用实例的方法获取全局数据
     this.getData();
@@ -36,9 +36,6 @@ Page({
     var that = this;
     setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 500);
   },
-  //scroll: function (e) {
-  //  console.log("scroll")
-  //},
 
   //网络请求数据, 实现首页刷新
   refresh0: function(){
@@ -54,8 +51,16 @@ Page({
 
   //使用本地 fake 数据实现刷新效果
   getData: function(){
-    var feed = util.getData2();
-    var feed_data = feed.data;
+    var feed_data = []
+    wx.request({
+      url: 'http://120.77.37.9:5000/api/zhihu/zhihu',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        feed_data = res.data.answer_data
+      }
+    })
     this.setData({
       feed:feed_data,
       feed_length: feed_data.length
