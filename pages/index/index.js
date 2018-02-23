@@ -51,6 +51,7 @@ Page({
 
   //使用本地 fake 数据实现刷新效果
   getData: function(){
+    var that = this
     var feed_data = []
     wx.request({
       url: 'http://120.77.37.9:5000/api/zhihu/zhihu',
@@ -59,12 +60,13 @@ Page({
       },
       success: function (res) {
         feed_data = res.data.answer_data
+        console.log(feed_data)
+        that.setData({
+          feed: feed_data,
+          feed_length: feed_data.length
+        })
       }
     })
-    this.setData({
-      feed:feed_data,
-      feed_length: feed_data.length
-    });
   },
   refresh: function(){
     wx.showToast({
@@ -73,7 +75,6 @@ Page({
       duration: 1000
     });
     var feed = util.getData2();
-    console.log("loaddata");
     var feed_data = feed.data;
     this.setData({
       feed:feed_data,
@@ -97,7 +98,6 @@ Page({
       duration: 1000
     })
     var next = util.getNext();
-    console.log("continueload");
     var next_data = next.data;
     this.setData({
       feed: this.data.feed.concat(next_data),

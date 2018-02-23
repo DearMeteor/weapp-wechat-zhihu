@@ -15,7 +15,7 @@
             <view class="feed-source">
                 <a class="">
                     <view class="avatar">
-                        <image src="../../images/+{{item.feed_source_img}}+.jpeg"></image>
+                        <image src="../../images/{{item.icon}}.jpeg"></image>
                     </view>
                     <text>{{item.user_name}}</text>
                 </a>
